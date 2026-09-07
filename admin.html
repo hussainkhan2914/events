@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusEvents - Faculty & Admin Management Dashboard</title>
+    <meta name="description" content="Official administrative console for campus event coordinators, faculty advisors, and department heads.">
+
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .admin-nav {
+            background: #110c22;
+            border-bottom: 2px solid var(--purple);
+            padding: 12px 0;
+        }
+
+        .admin-stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .admin-stat-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            padding: 22px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .admin-stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-stat-val {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1.1;
+        }
+
+        .admin-stat-lbl {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .admin-section {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            padding: 26px;
+            margin-bottom: 32px;
+        }
+
+        .admin-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 13.5px;
+        }
+
+        .admin-table th {
+            background: #17122b;
+            color: #ffffff;
+            padding: 12px 16px;
+            font-weight: 700;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .admin-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: middle;
+        }
+
+        .admin-table tbody tr:hover {
+            background: rgba(124, 58, 237, 0.03);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= ADMIN HEADER ================= -->
+    <header class="admin-nav">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="logo-icon" style="background: linear-gradient(135deg, var(--purple), var(--accent));">
+                    <i data-lucide="shield" style="width: 20px; height: 20px; color: #ffffff;"></i>
+                </div>
+                <div>
+                    <strong style="color: #ffffff; font-size: 17px; display: block;">CampusEvents Admin Console</strong>
+                    <span style="color: var(--accent); font-size: 11.5px; font-weight: 600;">Faculty & Coordinator Access</span>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <a href="index.html" class="btn btn-outline-white btn-sm">
+                    <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> Return to Student Portal
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main style="padding: 40px 0 60px;">
+        <div class="container">
+            <!-- Stat Metric Cards -->
+            <div class="admin-stat-grid">
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon" style="background: var(--purple-bg); color: var(--purple);">
+                        <i data-lucide="calendar" style="width: 26px; height: 26px;"></i>
+                    </div>
+                    <div>
+                        <div class="admin-stat-val" id="statTotalEvents">0</div>
+                        <div class="admin-stat-lbl">Total Events</div>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon" style="background: rgba(0, 229, 255, 0.12); color: #0284c7;">
+                        <i data-lucide="users" style="width: 26px; height: 26px;"></i>
+                    </div>
+                    <div>
+                        <div class="admin-stat-val" id="statTotalRegistrations">0</div>
+                        <div class="admin-stat-lbl">Student Registrations</div>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon" style="background: rgba(16, 185, 129, 0.12); color: var(--success);">
+                        <i data-lucide="check-circle" style="width: 26px; height: 26px;"></i>
+                    </div>
+                    <div>
+                        <div class="admin-stat-val">8</div>
+                        <div class="admin-stat-lbl">Active Domains</div>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon" style="background: rgba(245, 158, 11, 0.12); color: var(--warning);">
+                        <i data-lucide="bell" style="width: 26px; height: 26px;"></i>
+                    </div>
+                    <div>
+                        <div class="admin-stat-val" id="statTotalNotices">0</div>
+                        <div class="admin-stat-lbl">Published Notices</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EVENT MANAGEMENT SECTION -->
+            <div class="admin-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <h2 style="font-size: 20px; font-weight: 800; color: var(--primary);">Event Inventory Management</h2>
+                        <p style="font-size: 13.5px; color: var(--text-muted);">Manage upcoming campus events, modify schedules, or delete cancelled fixtures.</p>
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="openAddEventModal()">
+                        <i data-lucide="plus" style="width: 15px; height: 15px;"></i> Create New Event
+                    </button>
+                </div>
+
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Event Title</th>
+                                <th>Category & Theme</th>
+                                <th>Date & Time</th>
+                                <th>Venue</th>
+                                <th>Team Size</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminEventsTableBody">
+                            <!-- Injected via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- STUDENT REGISTRATIONS SECTION -->
+            <div class="admin-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <h2 style="font-size: 20px; font-weight: 800; color: var(--primary);">Student Registrations Ledger</h2>
+                        <p style="font-size: 13.5px; color: var(--text-muted);">Live roll-number verification and confirmed attendees list across departments.</p>
+                    </div>
+                    <button class="btn btn-outline btn-sm" onclick="window.print()">
+                        <i data-lucide="printer" style="width: 14px; height: 14px;"></i> Export / Print Ledger
+                    </button>
+                </div>
+
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Pass ID</th>
+                                <th>Student Name</th>
+                                <th>Roll Number</th>
+                                <th>Branch</th>
+                                <th>Event Registered</th>
+                                <th>Team Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminRegsTableBody">
+                            <!-- Injected via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ANNOUNCEMENTS PUBLISHER SECTION -->
+            <div class="admin-section">
+                <h2 style="font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 16px;">Publish Campus Notice</h2>
+                <form id="addNoticeForm" onsubmit="return handleAddNotice(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Notice Title</label>
+                            <input type="text" id="noticeTitle" class="form-control" placeholder="e.g. Cricket Tournament Kit Distribution" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select id="noticeCategory" class="form-control">
+                                <option value="Technical">Technical</option>
+                                <option value="Sports">Sports</option>
+                                <option value="Cultural">Cultural</option>
+                                <option value="Workshop">Workshop</option>
+                                <option value="General">General</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Notice Content</label>
+                        <textarea id="noticeContent" class="form-control" rows="3" placeholder="Provide full details and instructions..." required></textarea>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+                        <input type="checkbox" id="noticeUrgent">
+                        <label for="noticeUrgent" style="font-size: 13.5px; font-weight: 700; color: var(--danger);">Mark as Urgent Advisory</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i data-lucide="send" style="width: 15px; height: 15px;"></i> Publish Notice to Bulletin
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal to Add New Event -->
+    <div class="modal-overlay" id="addEventModal">
+        <div class="modal-dialog">
+            <button class="modal-close-btn" onclick="closeAddEventModal()">
+                <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+            </button>
+            <div style="padding: 26px;">
+                <h3 style="font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 18px;">
+                    Create New College Event
+                </h3>
+                <form id="newEventForm" onsubmit="return handleCreateEvent(event)">
+                    <div class="form-group">
+                        <label class="form-label">Event Title <span class="required">*</span></label>
+                        <input type="text" id="newEvtTitle" class="form-control" placeholder="e.g. RoboWars Challenge 2026" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Category <span class="required">*</span></label>
+                            <select id="newEvtCategory" class="form-control" required>
+                                <option value="Technical">Technical</option>
+                                <option value="Sports">Sports</option>
+                                <option value="Cultural">Cultural</option>
+                                <option value="Music">Music</option>
+                                <option value="Workshop">Workshop</option>
+                                <option value="Seminar">Seminar</option>
+                                <option value="Competitions">Competitions</option>
+                                <option value="Arts">Arts</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tagline / Theme</label>
+                            <input type="text" id="newEvtTagline" class="form-control" placeholder="e.g. Battle of Autonomous Rovers">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Date <span class="required">*</span></label>
+                            <input type="date" id="newEvtDate" class="form-control" value="2026-10-15" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Time <span class="required">*</span></label>
+                            <input type="text" id="newEvtTime" class="form-control" placeholder="e.g. 10:00 AM – 04:00 PM" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Venue Location <span class="required">*</span></label>
+                            <input type="text" id="newEvtVenue" class="form-control" placeholder="e.g. Mechanical Workshop Arena" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Team Format</label>
+                            <input type="text" id="newEvtTeam" class="form-control" placeholder="e.g. 2 - 4 Members">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Organizing Department <span class="required">*</span></label>
+                        <input type="text" id="newEvtOrganizer" class="form-control" value="Department of Computer Science & Engineering" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Event Description <span class="required">*</span></label>
+                        <textarea id="newEvtDesc" class="form-control" rows="3" placeholder="Explain the objective and format..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Custom Cover Image URL (Optional - Theme image used if blank)</label>
+                        <input type="url" id="newEvtImg" class="form-control" placeholder="https://images.unsplash.com/...">
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="button" class="btn btn-outline" style="flex: 1;" onclick="closeAddEventModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" style="flex: 2;">Save & Publish Event</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAdminData();
+        });
+
+        function renderAdminData() {
+            const events = getEvents();
+            const regs = getRegistrations();
+            const notices = getAnnouncements();
+
+            // Stats
+            document.getElementById('statTotalEvents').textContent = events.length;
+            document.getElementById('statTotalRegistrations').textContent = regs.length;
+            document.getElementById('statTotalNotices').textContent = notices.length;
+
+            // Events Table
+            const eventsTbody = document.getElementById('adminEventsTableBody');
+            eventsTbody.innerHTML = events.map(evt => {
+                const theme = getEventTheme(evt.category, evt.title);
+                return `
+                    <tr>
+                        <td>
+                            <strong style="color: var(--primary);">${evt.title}</strong>
+                            <div style="font-size: 11.5px; color: var(--text-muted);">${evt.organizer}</div>
+                        </td>
+                        <td>
+                            <span class="badge ${theme.badgeClass}">${evt.category}</span>
+                        </td>
+                        <td>
+                            <div>${evt.date}</div>
+                            <div style="font-size: 11.5px; color: var(--text-muted);">${evt.time}</div>
+                        </td>
+                        <td>${evt.venue}</td>
+                        <td>${evt.teamSize || 'Individual'}</td>
+                        <td>
+                            <button class="btn btn-outline btn-sm" style="color: var(--danger); border-color: rgba(239, 68, 68, 0.3);" onclick="handleDeleteEvent('${evt.id}')">
+                                <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Registrations Table
+            const regsTbody = document.getElementById('adminRegsTableBody');
+            regsTbody.innerHTML = regs.map(reg => `
+                <tr>
+                    <td><span style="font-family: monospace; font-weight: 700; color: var(--purple);">${reg.regId}</span></td>
+                    <td><strong>${reg.name}</strong></td>
+                    <td>${reg.rollNumber}</td>
+                    <td>${reg.branch}</td>
+                    <td>${reg.eventTitle}</td>
+                    <td>${reg.teamName || 'Individual'}</td>
+                    <td><span class="badge badge-status-open">Confirmed</span></td>
+                </tr>
+            `).join('');
+
+            refreshIcons();
+        }
+
+        function openAddEventModal() {
+            document.getElementById('addEventModal').classList.add('active');
+            refreshIcons();
+        }
+
+        function closeAddEventModal() {
+            document.getElementById('addEventModal').classList.remove('active');
+        }
+
+        function handleCreateEvent(e) {
+            e.preventDefault();
+            const newEvt = {
+                title: document.getElementById('newEvtTitle').value.trim(),
+                category: document.getElementById('newEvtCategory').value,
+                tagline: document.getElementById('newEvtTagline').value.trim(),
+                date: document.getElementById('newEvtDate').value,
+                time: document.getElementById('newEvtTime').value.trim(),
+                venue: document.getElementById('newEvtVenue').value.trim(),
+                teamSize: document.getElementById('newEvtTeam').value.trim() || 'Individual',
+                organizer: document.getElementById('newEvtOrganizer').value.trim(),
+                description: document.getElementById('newEvtDesc').value.trim(),
+                customImage: document.getElementById('newEvtImg').value.trim() || null,
+                rules: [
+                    'Participants must adhere to the official rules set by the organizing committee.',
+                    'College ID verification is mandatory at the venue.'
+                ]
+            };
+
+            addEvent(newEvt);
+            closeAddEventModal();
+            document.getElementById('newEventForm').reset();
+            showToast('New event published successfully!', 'success');
+            renderAdminData();
+            return false;
+        }
+
+        function handleDeleteEvent(id) {
+            if (confirm('Are you sure you want to delete this event from the platform?')) {
+                deleteEvent(id);
+                showToast('Event removed.', 'info');
+                renderAdminData();
+            }
+        }
+
+        function handleAddNotice(e) {
+            e.preventDefault();
+            const notice = {
+                title: document.getElementById('noticeTitle').value.trim(),
+                category: document.getElementById('noticeCategory').value,
+                content: document.getElementById('noticeContent').value.trim(),
+                urgent: document.getElementById('noticeUrgent').checked
+            };
+            addAnnouncement(notice);
+            document.getElementById('addNoticeForm').reset();
+            showToast('Campus notice published to bulletin!', 'success');
+            renderAdminData();
+            return false;
+        }
+    </script>
+</body>
+</html>
