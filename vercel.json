@@ -2,7 +2,6 @@
   "name": "offcampus",
   "cleanUrls": true,
   "framework": null,
-  "public": false,
   "rewrites": [
     { "source": "/events", "destination": "/event.html" },
     { "source": "/register", "destination": "/registration.html" },
