@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusEvents - All College Events & Competitions</title>
+    <meta name="description" content="Explore and register for all upcoming campus events, hackathons, sports tournaments, cultural nights, and workshops at Shadan College of Engineering and Technology.">
+
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* View mode toggle */
+        .view-toggle-group {
+            display: flex;
+            align-items: center;
+            background: var(--bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 3px;
+        }
+
+        .view-toggle-btn {
+            background: none;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .view-toggle-btn.active {
+            background: #ffffff;
+            color: var(--purple);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Modernized Table View */
+        .events-table-wrapper {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            overflow-x: auto;
+            box-shadow: var(--shadow-sm);
+            display: none;
+        }
+
+        .events-table-wrapper.active {
+            display: block;
+        }
+
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .modern-table th {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: #ffffff;
+            padding: 14px 18px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .modern-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr {
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .modern-table tbody tr:hover {
+            background: rgba(124, 58, 237, 0.04);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= SITE HEADER ================= -->
+    <header class="site-header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand-logo">
+                <div class="logo-icon">
+                    <i data-lucide="graduation-cap" style="width: 22px; height: 22px;"></i>
+                </div>
+                <span>Campus<span class="brand-highlight">Events</span></span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="site-nav" id="siteNav">
+                <a href="index.html">
+                    <i data-lucide="home" style="width: 15px; height: 15px;"></i> Home
+                </a>
+                <a href="event.html" class="active">
+                    <i data-lucide="calendar" style="width: 15px; height: 15px;"></i> Events
+                </a>
+                <a href="calendar.html">
+                    <i data-lucide="clock" style="width: 15px; height: 15px;"></i> Calendar
+                </a>
+                <a href="gallery.html">
+                    <i data-lucide="image" style="width: 15px; height: 15px;"></i> Gallery
+                </a>
+                <a href="announcements.html">
+                    <i data-lucide="bell" style="width: 15px; height: 15px;"></i> Notices
+                </a>
+                <a href="leaderboard.html">
+                    <i data-lucide="trophy" style="width: 15px; height: 15px;"></i> Leaderboard
+                </a>
+                <a href="my-registrations.html">
+                    <i data-lucide="check-circle" style="width: 15px; height: 15px;"></i> My Passes
+                </a>
+                <a href="about.html">
+                    <i data-lucide="info" style="width: 15px; height: 15px;"></i> About
+                </a>
+                <a href="contact.html">
+                    <i data-lucide="phone" style="width: 15px; height: 15px;"></i> Contact
+                </a>
+                <a href="admin.html" style="color: var(--accent);">
+                    <i data-lucide="settings" style="width: 15px; height: 15px;"></i> Admin
+                </a>
+            </nav>
+
+            <!-- CTA & Mobile Button -->
+            <div class="nav-actions">
+                <a href="registration.html" class="btn btn-sm btn-nav-register">
+                    <i data-lucide="user-plus" style="width: 15px; height: 15px;"></i> Register
+                </a>
+                <button class="mobile-toggle" aria-label="Toggle Navigation Menu">
+                    <i data-lucide="menu" style="width: 24px; height: 24px;"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main style="padding: 45px 0 60px;">
+        <div class="container">
+            <!-- Header section -->
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 28px;">
+                <div>
+                    <span class="section-tag">
+                        <i data-lucide="calendar" style="width: 14px; height: 14px;"></i>
+                        Official Registry
+                    </span>
+                    <h1 class="section-title with-accent">College Event Directory</h1>
+                    <p class="section-desc">
+                        Explore competitions, technical hackathons, cricket tournaments, cultural nights, and training bootcamps.
+                    </p>
+                </div>
+
+                <!-- View Switcher -->
+                <div class="view-toggle-group">
+                    <button class="view-toggle-btn active" id="btnGridView" onclick="setViewMode('grid')">
+                        <i data-lucide="grid" style="width: 15px; height: 15px;"></i> Card Grid
+                    </button>
+                    <button class="view-toggle-btn" id="btnTableView" onclick="setViewMode('table')">
+                        <i data-lucide="table" style="width: 15px; height: 15px;"></i> Table View
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search and Filter Controller -->
+            <div class="filter-search-box">
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px;">
+                    <div class="search-input-group">
+                        <i data-lucide="search" class="search-icon" style="width: 18px; height: 18px;"></i>
+                        <input type="text" id="eventSearchInput" placeholder="Search by event title, venue, or department (e.g. Cricket, Hackathon, AI, Lab)...">
+                    </div>
+                    <div>
+                        <select id="dateSortSelect" class="form-control" style="height: 100%;">
+                            <option value="all">Sort: All Dates</option>
+                            <option value="upcoming">Upcoming Soonest First</option>
+                            <option value="september">September 2026</option>
+                            <option value="october">October 2026</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Category Pills -->
+                <div class="category-pills" id="eventCategoryPills">
+                    <button class="category-pill active" data-category="all">
+                        <i data-lucide="layers" style="width: 13px; height: 13px;"></i> All Events
+                    </button>
+                    <button class="category-pill" data-category="Technical">
+                        <i data-lucide="code" style="width: 13px; height: 13px;"></i> Technical
+                    </button>
+                    <button class="category-pill" data-category="Sports">
+                        <i data-lucide="trophy" style="width: 13px; height: 13px;"></i> Sports & Cricket
+                    </button>
+                    <button class="category-pill" data-category="Cultural">
+                        <i data-lucide="sparkles" style="width: 13px; height: 13px;"></i> Cultural
+                    </button>
+                    <button class="category-pill" data-category="Music">
+                        <i data-lucide="music" style="width: 13px; height: 13px;"></i> Music
+                    </button>
+                    <button class="category-pill" data-category="Workshop">
+                        <i data-lucide="wrench" style="width: 13px; height: 13px;"></i> Workshops
+                    </button>
+                    <button class="category-pill" data-category="Seminar">
+                        <i data-lucide="graduation-cap" style="width: 13px; height: 13px;"></i> Seminars
+                    </button>
+                    <button class="category-pill" data-category="Competitions">
+                        <i data-lucide="award" style="width: 13px; height: 13px;"></i> Competitions
+                    </button>
+                    <button class="category-pill" data-category="Arts">
+                        <i data-lucide="palette" style="width: 13px; height: 13px;"></i> Arts
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic Card Grid View (Theme Based) -->
+            <div class="events-grid" id="eventsGridContainer">
+                <!-- Injected via JavaScript -->
+            </div>
+
+            <!-- Upgraded Table View Container (Preserving original user concept) -->
+            <div class="events-table-wrapper" id="eventsTableContainer">
+                <table class="modern-table" id="eventsTable">
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Category</th>
+                            <th>Date & Time</th>
+                            <th>Venue</th>
+                            <th>Organizer</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eventsTableBody">
+                        <!-- Injected via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- ================= SITE FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="brand-logo">
+                    <div class="logo-icon">
+                        <i data-lucide="graduation-cap" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <span>Campus<span class="brand-highlight">Events</span></span>
+                </a>
+                <p>
+                    Connecting students with enriching campus experiences. The official event discovery and participation platform of Shadan College of Engineering and Technology.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Home</a></li>
+                    <li><a href="event.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> All Events</a></li>
+                    <li><a href="calendar.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Event Calendar</a></li>
+                    <li><a href="gallery.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Event Gallery</a></li>
+                    <li><a href="my-registrations.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> My Registrations</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Categories</h4>
+                <ul class="footer-links">
+                    <li><a href="event.html?category=Sports"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Cricket & Sports</a></li>
+                    <li><a href="event.html?category=Technical"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Tech Hackathons</a></li>
+                    <li><a href="event.html?category=Cultural"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Cultural Fests</a></li>
+                    <li><a href="event.html?category=Workshop"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Practical Workshops</a></li>
+                    <li><a href="leaderboard.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Leaderboards</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">College Contact</h4>
+                <div class="footer-contact-item">
+                    <i data-lucide="map-pin"></i>
+                    <span>Shadan College of Engineering & Technology, Peerancheru, Hyderabad, Telangana</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i data-lucide="mail"></i>
+                    <span>events@shadan.edu.in</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i data-lucide="phone"></i>
+                    <span>+91 (040) 2419-8200</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">
+            <div>
+                &copy; 2026 CampusEvents | Shadan College of Engineering and Technology. All rights reserved.
+            </div>
+            <div>
+                Built for 2nd-Year B.Tech CSE Project Presentation.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        let currentView = 'grid';
+        let currentCategory = 'all';
+        let currentSearch = '';
+        let currentSort = 'all';
+
+        function setViewMode(mode) {
+            currentView = mode;
+            const gridContainer = document.getElementById('eventsGridContainer');
+            const tableContainer = document.getElementById('eventsTableContainer');
+            const btnGrid = document.getElementById('btnGridView');
+            const btnTable = document.getElementById('btnTableView');
+
+            if (mode === 'grid') {
+                gridContainer.style.display = 'grid';
+                tableContainer.classList.remove('active');
+                btnGrid.classList.add('active');
+                btnTable.classList.remove('active');
+            } else {
+                gridContainer.style.display = 'none';
+                tableContainer.classList.add('active');
+                btnTable.classList.add('active');
+                btnGrid.classList.remove('active');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const events = getEvents();
+            const gridContainer = document.getElementById('eventsGridContainer');
+            const tableBody = document.getElementById('eventsTableBody');
+            const searchInput = document.getElementById('eventSearchInput');
+            const dateSort = document.getElementById('dateSortSelect');
+            const categoryPills = document.querySelectorAll('#eventCategoryPills .category-pill');
+
+            // Check URL query param e.g. ?category=Sports
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryCat = urlParams.get('category');
+            if (queryCat) {
+                currentCategory = queryCat;
+                categoryPills.forEach(p => {
+                    if (p.getAttribute('data-category').toLowerCase() === queryCat.toLowerCase()) {
+                        p.classList.add('active');
+                    } else {
+                        p.classList.remove('active');
+                    }
+                });
+            }
+
+            function filterEventsList() {
+                return events.filter(evt => {
+                    const matchCategory = currentCategory === 'all' || evt.category.toLowerCase() === currentCategory.toLowerCase();
+                    const query = currentSearch.toLowerCase().trim();
+                    const matchSearch = !query ||
+                        evt.title.toLowerCase().includes(query) ||
+                        evt.venue.toLowerCase().includes(query) ||
+                        evt.organizer.toLowerCase().includes(query) ||
+                        evt.category.toLowerCase().includes(query) ||
+                        (evt.tagline && evt.tagline.toLowerCase().includes(query));
+
+                    let matchDate = true;
+                    if (currentSort === 'september') matchDate = evt.date.includes('-09-');
+                    if (currentSort === 'october') matchDate = evt.date.includes('-10-');
+
+                    return matchCategory && matchSearch && matchDate;
+                });
+            }
+
+            function render() {
+                const filtered = filterEventsList();
+
+                if (filtered.length === 0) {
+                    const emptyHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i data-lucide="calendar-x" style="width: 32px; height: 32px;"></i>
+                            </div>
+                            <h3 class="empty-state-title">No Events Matched</h3>
+                            <p class="empty-state-desc">We couldn't find any events matching your selected filters. Try broadening your search or resetting category filters.</p>
+                            <button class="btn btn-primary btn-sm" onclick="resetAllFilters()">Reset All Filters</button>
+                        </div>
+                    `;
+                    gridContainer.innerHTML = emptyHTML;
+                    tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 40px;">No events found</td></tr>`;
+                    refreshIcons();
+                    return;
+                }
+
+                // Grid View Rendering
+                gridContainer.innerHTML = filtered.map(evt => createEventCardHTML(evt)).join('');
+
+                // Table View Rendering (Preserves original table concept)
+                tableBody.innerHTML = filtered.map(evt => {
+                    const theme = getEventTheme(evt.category, evt.title);
+                    const formattedDate = formatDisplayDate(evt.date);
+                    return `
+                        <tr onclick="openEventModal('${evt.id}')">
+                            <td>
+                                <strong style="color: var(--primary); font-size: 15px;">${evt.title}</strong>
+                                <div style="font-size: 12px; color: var(--text-muted);">${evt.tagline || ''}</div>
+                            </td>
+                            <td>
+                                <span class="badge ${theme.badgeClass}">
+                                    <i data-lucide="${theme.icon}" style="width: 12px; height: 12px;"></i>
+                                    ${evt.category}
+                                </span>
+                            </td>
+                            <td>
+                                <div><strong>${formattedDate.full}</strong></div>
+                                <div style="font-size: 12px; color: var(--text-muted);">${evt.time}</div>
+                            </td>
+                            <td>${evt.venue}</td>
+                            <td><span style="font-size: 13px; color: var(--text-muted);">${evt.organizer}</span></td>
+                            <td onclick="event.stopPropagation()">
+                                <div style="display: flex; gap: 6px;">
+                                    <button class="btn btn-outline btn-sm" onclick="openEventModal('${evt.id}')">
+                                        Details
+                                    </button>
+                                    <a href="registration.html?event=${encodeURIComponent(evt.title)}" class="btn btn-primary btn-sm">
+                                        Register
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                refreshIcons();
+            }
+
+            window.resetAllFilters = () => {
+                currentCategory = 'all';
+                currentSearch = '';
+                currentSort = 'all';
+                if (searchInput) searchInput.value = '';
+                if (dateSort) dateSort.value = 'all';
+                categoryPills.forEach(p => p.classList.remove('active'));
+                categoryPills[0].classList.add('active');
+                render();
+            };
+
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    currentSearch = e.target.value;
+                    render();
+                });
+            }
+
+            if (dateSort) {
+                dateSort.addEventListener('change', (e) => {
+                    currentSort = e.target.value;
+                    render();
+                });
+            }
+
+            categoryPills.forEach(pill => {
+                pill.addEventListener('click', () => {
+                    categoryPills.forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    currentCategory = pill.getAttribute('data-category');
+                    render();
+                });
+            });
+
+            // Initial view
+            render();
+        });
+    </script>
+</body>
+</html>
