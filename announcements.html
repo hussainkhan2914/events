@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusEvents - Official Campus Notices & Announcements</title>
+    <meta name="description" content="Stay updated with official college event announcements, deadline extensions, venue changes, and competition circulars at Shadan College of Engineering and Technology.">
+
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .announcement-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            padding: 24px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--purple);
+            transition: var(--transition);
+        }
+
+        .announcement-card.urgent {
+            border-left-color: var(--danger);
+            background: #fffafa;
+        }
+
+        .announcement-card:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .ann-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .ann-date {
+            font-size: 13px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= SITE HEADER ================= -->
+    <header class="site-header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand-logo">
+                <div class="logo-icon">
+                    <i data-lucide="graduation-cap" style="width: 22px; height: 22px;"></i>
+                </div>
+                <span>Campus<span class="brand-highlight">Events</span></span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="site-nav" id="siteNav">
+                <a href="index.html">
+                    <i data-lucide="home" style="width: 15px; height: 15px;"></i> Home
+                </a>
+                <a href="event.html">
+                    <i data-lucide="calendar" style="width: 15px; height: 15px;"></i> Events
+                </a>
+                <a href="calendar.html">
+                    <i data-lucide="clock" style="width: 15px; height: 15px;"></i> Calendar
+                </a>
+                <a href="gallery.html">
+                    <i data-lucide="image" style="width: 15px; height: 15px;"></i> Gallery
+                </a>
+                <a href="announcements.html" class="active">
+                    <i data-lucide="bell" style="width: 15px; height: 15px;"></i> Notices
+                </a>
+                <a href="leaderboard.html">
+                    <i data-lucide="trophy" style="width: 15px; height: 15px;"></i> Leaderboard
+                </a>
+                <a href="my-registrations.html">
+                    <i data-lucide="check-circle" style="width: 15px; height: 15px;"></i> My Passes
+                </a>
+                <a href="about.html">
+                    <i data-lucide="info" style="width: 15px; height: 15px;"></i> About
+                </a>
+                <a href="contact.html">
+                    <i data-lucide="phone" style="width: 15px; height: 15px;"></i> Contact
+                </a>
+                <a href="admin.html" style="color: var(--accent);">
+                    <i data-lucide="settings" style="width: 15px; height: 15px;"></i> Admin
+                </a>
+            </nav>
+
+            <!-- CTA & Mobile Button -->
+            <div class="nav-actions">
+                <a href="registration.html" class="btn btn-sm btn-nav-register">
+                    <i data-lucide="user-plus" style="width: 15px; height: 15px;"></i> Register
+                </a>
+                <button class="mobile-toggle" aria-label="Toggle Navigation Menu">
+                    <i data-lucide="menu" style="width: 24px; height: 24px;"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main style="padding: 45px 0 60px;">
+        <div class="container container-narrow">
+            <div class="section-header text-center">
+                <span class="section-tag">
+                    <i data-lucide="bell-ring" style="width: 14px; height: 14px;"></i>
+                    Official Bulletin
+                </span>
+                <h1 class="section-title with-accent">Campus Notices & Announcements</h1>
+                <p class="section-desc">
+                    Real-time circulars regarding registration deadlines, cricket trials, technical workshop lab requirements, and auditorium schedules.
+                </p>
+            </div>
+
+            <div id="announcementsFeed">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- ================= SITE FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="brand-logo">
+                    <div class="logo-icon">
+                        <i data-lucide="graduation-cap" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <span>Campus<span class="brand-highlight">Events</span></span>
+                </a>
+                <p>
+                    Connecting students with enriching campus experiences. The official event discovery and participation platform of Shadan College of Engineering and Technology.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Home</a></li>
+                    <li><a href="event.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> All Events</a></li>
+                    <li><a href="calendar.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Event Calendar</a></li>
+                    <li><a href="my-registrations.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> My Passes</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Categories</h4>
+                <ul class="footer-links">
+                    <li><a href="event.html?category=Sports"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Cricket & Sports</a></li>
+                    <li><a href="event.html?category=Technical"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Tech Hackathons</a></li>
+                    <li><a href="event.html?category=Cultural"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Cultural Fests</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">College Contact</h4>
+                <div class="footer-contact-item">
+                    <i data-lucide="map-pin"></i>
+                    <span>Shadan College of Engineering & Technology, Hyderabad</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i data-lucide="mail"></i>
+                    <span>events@shadan.edu.in</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">
+            <div>
+                &copy; 2026 CampusEvents | Shadan College of Engineering and Technology. All rights reserved.
+            </div>
+            <div>
+                Built for 2nd-Year B.Tech CSE Project Presentation.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const feed = document.getElementById('announcementsFeed');
+            const anns = getAnnouncements();
+
+            feed.innerHTML = anns.map(ann => `
+                <div class="announcement-card ${ann.urgent ? 'urgent' : ''}">
+                    <div class="ann-meta">
+                        <span class="badge ${ann.urgent ? 'badge-status-closed' : 'badge-technical'}">
+                            <i data-lucide="${ann.urgent ? 'alert-triangle' : 'info'}" style="width: 12px; height: 12px;"></i>
+                            ${ann.urgent ? 'Urgent Advisory' : ann.category}
+                        </span>
+                        <span class="ann-date">
+                            <i data-lucide="calendar" style="width: 14px; height: 14px;"></i>
+                            ${ann.date}
+                        </span>
+                        <span style="font-size: 12px; color: var(--text-muted); margin-left: auto;">
+                            Official Dean of Student Affairs Circular
+                        </span>
+                    </div>
+
+                    <h3 style="font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 8px;">
+                        ${ann.title}
+                    </h3>
+
+                    <p style="font-size: 14.5px; color: var(--text); line-height: 1.6; margin-bottom: 16px;">
+                        ${ann.content}
+                    </p>
+
+                    <div style="display: flex; gap: 10px; align-items: center; padding-top: 14px; border-top: 1px solid var(--border-light);">
+                        <a href="registration.html" class="btn btn-outline btn-sm">
+                            <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i> Register for Events
+                        </a>
+                        <a href="contact.html" class="btn btn-outline btn-sm">
+                            <i data-lucide="help-circle" style="width: 14px; height: 14px;"></i> Contact Helpdesk
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+
+            refreshIcons();
+        });
+    </script>
+</body>
+</html>
