@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusEvents - College Event Gallery</title>
+    <meta name="description" content="Explore realistic photographs from college hackathons, cricket matches, dance fests, and workshops at Shadan College of Engineering and Technology.">
+
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 22px;
+        }
+
+        .gallery-item {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        .gallery-img-box {
+            position: relative;
+            height: 230px;
+            overflow: hidden;
+            background: #17122b;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.08);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(23, 18, 43, 0.1) 0%, rgba(23, 18, 43, 0.8) 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: 16px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-info {
+            padding: 16px;
+        }
+
+        .gallery-title {
+            font-size: 15.5px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .gallery-caption {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Lightbox Modal */
+        .lightbox-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 11, 29, 0.9);
+            backdrop-filter: blur(8px);
+            z-index: 2500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            max-width: 860px;
+            width: 100%;
+            background: #17122b;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+        }
+
+        .lightbox-img-holder {
+            max-height: 65vh;
+            background: #000000;
+            overflow: hidden;
+        }
+
+        .lightbox-img-holder img {
+            width: 100%;
+            max-height: 65vh;
+            object-fit: contain;
+            margin: 0 auto;
+        }
+
+        .lightbox-details {
+            padding: 20px 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= SITE HEADER ================= -->
+    <header class="site-header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand-logo">
+                <div class="logo-icon">
+                    <i data-lucide="graduation-cap" style="width: 22px; height: 22px;"></i>
+                </div>
+                <span>Campus<span class="brand-highlight">Events</span></span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="site-nav" id="siteNav">
+                <a href="index.html">
+                    <i data-lucide="home" style="width: 15px; height: 15px;"></i> Home
+                </a>
+                <a href="event.html">
+                    <i data-lucide="calendar" style="width: 15px; height: 15px;"></i> Events
+                </a>
+                <a href="calendar.html">
+                    <i data-lucide="clock" style="width: 15px; height: 15px;"></i> Calendar
+                </a>
+                <a href="gallery.html" class="active">
+                    <i data-lucide="image" style="width: 15px; height: 15px;"></i> Gallery
+                </a>
+                <a href="announcements.html">
+                    <i data-lucide="bell" style="width: 15px; height: 15px;"></i> Notices
+                </a>
+                <a href="leaderboard.html">
+                    <i data-lucide="trophy" style="width: 15px; height: 15px;"></i> Leaderboard
+                </a>
+                <a href="my-registrations.html">
+                    <i data-lucide="check-circle" style="width: 15px; height: 15px;"></i> My Passes
+                </a>
+                <a href="about.html">
+                    <i data-lucide="info" style="width: 15px; height: 15px;"></i> About
+                </a>
+                <a href="contact.html">
+                    <i data-lucide="phone" style="width: 15px; height: 15px;"></i> Contact
+                </a>
+                <a href="admin.html" style="color: var(--accent);">
+                    <i data-lucide="settings" style="width: 15px; height: 15px;"></i> Admin
+                </a>
+            </nav>
+
+            <!-- CTA & Mobile Button -->
+            <div class="nav-actions">
+                <a href="registration.html" class="btn btn-sm btn-nav-register">
+                    <i data-lucide="user-plus" style="width: 15px; height: 15px;"></i> Register
+                </a>
+                <button class="mobile-toggle" aria-label="Toggle Navigation Menu">
+                    <i data-lucide="menu" style="width: 24px; height: 24px;"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main style="padding: 45px 0 60px;">
+        <div class="container">
+            <!-- Header section -->
+            <div class="section-header text-center">
+                <span class="section-tag">
+                    <i data-lucide="camera" style="width: 14px; height: 14px;"></i>
+                    Visual Memories
+                </span>
+                <h1 class="section-title with-accent">Campus Event Gallery</h1>
+                <p class="section-desc">
+                    Realistic photographs from past campus hackathons, cricket championships, cultural stage nights, workshops, and academic seminars.
+                </p>
+            </div>
+
+            <!-- Filter Pills -->
+            <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 36px;">
+                <button class="category-pill active" onclick="filterGallery('All', this)">
+                    <i data-lucide="layers" style="width: 13px; height: 13px;"></i> All Photos
+                </button>
+                <button class="category-pill" onclick="filterGallery('Sports', this)">
+                    <i data-lucide="trophy" style="width: 13px; height: 13px;"></i> Cricket & Sports
+                </button>
+                <button class="category-pill" onclick="filterGallery('Technical', this)">
+                    <i data-lucide="code" style="width: 13px; height: 13px;"></i> Technical & Hackathons
+                </button>
+                <button class="category-pill" onclick="filterGallery('Cultural', this)">
+                    <i data-lucide="sparkles" style="width: 13px; height: 13px;"></i> Cultural & Music
+                </button>
+                <button class="category-pill" onclick="filterGallery('Workshops', this)">
+                    <i data-lucide="wrench" style="width: 13px; height: 13px;"></i> Practical Workshops
+                </button>
+                <button class="category-pill" onclick="filterGallery('Seminars', this)">
+                    <i data-lucide="graduation-cap" style="width: 13px; height: 13px;"></i> Seminars
+                </button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="gallery-grid" id="galleryContainer">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox-modal" id="lightboxModal">
+        <div class="lightbox-content">
+            <button class="modal-close-btn" onclick="closeLightbox()" aria-label="Close Lightbox">
+                <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+            </button>
+            <div class="lightbox-img-holder">
+                <img src="" id="lightboxImg" alt="Event Preview">
+            </div>
+            <div class="lightbox-details">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span class="badge badge-technical" id="lightboxCategory">Technical</span>
+                    <span style="font-size: 12px; color: var(--accent);">Shadan College of Engineering & Technology</span>
+                </div>
+                <h3 id="lightboxTitle" style="font-size: 19px; font-weight: 800; color: #ffffff; margin-bottom: 6px;"></h3>
+                <p id="lightboxCaption" style="font-size: 14px; color: #b7b2d4; line-height: 1.5;"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= SITE FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="brand-logo">
+                    <div class="logo-icon">
+                        <i data-lucide="graduation-cap" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <span>Campus<span class="brand-highlight">Events</span></span>
+                </a>
+                <p>
+                    Connecting students with enriching campus experiences. The official event discovery and participation platform of Shadan College of Engineering and Technology.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Home</a></li>
+                    <li><a href="event.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> All Events</a></li>
+                    <li><a href="calendar.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Event Calendar</a></li>
+                    <li><a href="gallery.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Event Gallery</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Categories</h4>
+                <ul class="footer-links">
+                    <li><a href="event.html?category=Sports"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Cricket & Sports</a></li>
+                    <li><a href="event.html?category=Technical"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Tech Hackathons</a></li>
+                    <li><a href="event.html?category=Cultural"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Cultural Fests</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">College Contact</h4>
+                <div class="footer-contact-item">
+                    <i data-lucide="map-pin"></i>
+                    <span>Shadan College of Engineering & Technology, Hyderabad</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i data-lucide="mail"></i>
+                    <span>events@shadan.edu.in</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">
+            <div>
+                &copy; 2026 CampusEvents | Shadan College of Engineering and Technology. All rights reserved.
+            </div>
+            <div>
+                Built for 2nd-Year B.Tech CSE Project Presentation.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        const galleryItems = DEFAULT_GALLERY;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGallery('All');
+
+            const lightbox = document.getElementById('lightboxModal');
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeLightbox();
+            });
+        });
+
+        function filterGallery(category, btn) {
+            document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            renderGallery(category);
+        }
+
+        function renderGallery(filter) {
+            const container = document.getElementById('galleryContainer');
+            const filtered = galleryItems.filter(item => filter === 'All' || item.category === filter);
+
+            container.innerHTML = filtered.map(item => `
+                <div class="gallery-item" onclick="openLightbox('${item.id}')">
+                    <div class="gallery-img-box">
+                        <img src="${item.image}" alt="${item.title}" class="gallery-img" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span class="badge badge-technical" style="background: rgba(0, 229, 255, 0.2); color: var(--accent); border: 1px solid var(--accent);">
+                                <i data-lucide="maximize-2" style="width: 12px; height: 12px;"></i> View Full Photo
+                            </span>
+                        </div>
+                    </div>
+                    <div class="gallery-info">
+                        <span class="badge badge-status-upcoming" style="margin-bottom: 6px; font-size: 10.5px;">${item.category}</span>
+                        <h4 class="gallery-title">${item.title}</h4>
+                        <p class="gallery-caption">${item.caption}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            refreshIcons();
+        }
+
+        function openLightbox(id) {
+            const item = galleryItems.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('lightboxImg').src = item.image;
+            document.getElementById('lightboxTitle').textContent = item.title;
+            document.getElementById('lightboxCaption').textContent = item.caption;
+            document.getElementById('lightboxCategory').textContent = item.category;
+
+            const modal = document.getElementById('lightboxModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            refreshIcons();
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightboxModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    </script>
+</body>
+</html>
