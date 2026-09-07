@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusEvents - Monthly Event Calendar</title>
+    <meta name="description" content="View college events scheduled by date on the official Shadan College CampusEvents calendar.">
+
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .calendar-layout {
+            display: grid;
+            grid-template-columns: 1.6fr 1.1fr;
+            gap: 28px;
+        }
+
+        @media (max-width: 900px) {
+            .calendar-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .calendar-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-md);
+            padding: 24px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-header h3 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .cal-nav-btn {
+            background: var(--bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cal-nav-btn:hover {
+            background: var(--purple-bg);
+            color: var(--purple);
+            border-color: var(--purple);
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .calendar-days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+        }
+
+        .cal-day-cell {
+            min-height: 52px;
+            border-radius: var(--radius-sm);
+            border: 1px solid transparent;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: var(--transition);
+            background: #fcfbff;
+        }
+
+        .cal-day-cell:hover {
+            border-color: var(--purple);
+            background: #ffffff;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .cal-day-cell.inactive {
+            opacity: 0.25;
+            pointer-events: none;
+            background: none;
+        }
+
+        .cal-day-cell.selected {
+            border-color: var(--purple);
+            background: var(--purple-bg);
+        }
+
+        .cal-day-cell.today {
+            font-weight: 800;
+            border: 1.5px solid var(--accent);
+        }
+
+        .cal-day-number {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .event-dots-row {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-top: 2px;
+        }
+
+        .event-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .selected-day-panel {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-md);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= SITE HEADER ================= -->
+    <header class="site-header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand-logo">
+                <div class="logo-icon">
+                    <i data-lucide="graduation-cap" style="width: 22px; height: 22px;"></i>
+                </div>
+                <span>Campus<span class="brand-highlight">Events</span></span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="site-nav" id="siteNav">
+                <a href="index.html">
+                    <i data-lucide="home" style="width: 15px; height: 15px;"></i> Home
+                </a>
+                <a href="event.html">
+                    <i data-lucide="calendar" style="width: 15px; height: 15px;"></i> Events
+                </a>
+                <a href="calendar.html" class="active">
+                    <i data-lucide="clock" style="width: 15px; height: 15px;"></i> Calendar
+                </a>
+                <a href="gallery.html">
+                    <i data-lucide="image" style="width: 15px; height: 15px;"></i> Gallery
+                </a>
+                <a href="announcements.html">
+                    <i data-lucide="bell" style="width: 15px; height: 15px;"></i> Notices
+                </a>
+                <a href="leaderboard.html">
+                    <i data-lucide="trophy" style="width: 15px; height: 15px;"></i> Leaderboard
+                </a>
+                <a href="my-registrations.html">
+                    <i data-lucide="check-circle" style="width: 15px; height: 15px;"></i> My Passes
+                </a>
+                <a href="about.html">
+                    <i data-lucide="info" style="width: 15px; height: 15px;"></i> About
+                </a>
+                <a href="contact.html">
+                    <i data-lucide="phone" style="width: 15px; height: 15px;"></i> Contact
+                </a>
+                <a href="admin.html" style="color: var(--accent);">
+                    <i data-lucide="settings" style="width: 15px; height: 15px;"></i> Admin
+                </a>
+            </nav>
+
+            <!-- CTA & Mobile Button -->
+            <div class="nav-actions">
+                <a href="registration.html" class="btn btn-sm btn-nav-register">
+                    <i data-lucide="user-plus" style="width: 15px; height: 15px;"></i> Register
+                </a>
+                <button class="mobile-toggle" aria-label="Toggle Navigation Menu">
+                    <i data-lucide="menu" style="width: 24px; height: 24px;"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main style="padding: 45px 0 60px;">
+        <div class="container">
+            <!-- Header section -->
+            <div class="section-header">
+                <span class="section-tag">
+                    <i data-lucide="calendar" style="width: 14px; height: 14px;"></i>
+                    Schedule Matrix
+                </span>
+                <h1 class="section-title with-accent">Campus Events Calendar</h1>
+                <p class="section-desc">
+                    View collegiate fixtures and activities by date. Click any highlighted date to inspect full event details or register.
+                </p>
+            </div>
+
+            <!-- Calendar Layout -->
+            <div class="calendar-layout">
+                <!-- Left: Monthly Calendar -->
+                <div class="calendar-card">
+                    <div class="calendar-header">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <h3 id="currentMonthYear">September 2026</h3>
+                            <button class="btn btn-sm btn-outline" onclick="jumpToCurrentMonth()">Today</button>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="cal-nav-btn" onclick="changeMonth(-1)" aria-label="Previous Month">
+                                <i data-lucide="chevron-left" style="width: 18px; height: 18px;"></i>
+                            </button>
+                            <button class="cal-nav-btn" onclick="changeMonth(1)" aria-label="Next Month">
+                                <i data-lucide="chevron-right" style="width: 18px; height: 18px;"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Weekdays -->
+                    <div class="calendar-weekdays">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
+
+                    <!-- Days Grid -->
+                    <div class="calendar-days-grid" id="calendarGrid">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+
+                    <!-- Category Legend -->
+                    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-light); display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--text-muted);">
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="event-dot" style="background: #0284c7;"></span> Technical
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="event-dot" style="background: #10b981;"></span> Sports & Cricket
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="event-dot" style="background: #c026d3;"></span> Cultural
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="event-dot" style="background: #e11d48;"></span> Music
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="event-dot" style="background: #d97706;"></span> Workshops
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Selected Day Events Panel -->
+                <div class="selected-day-panel">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border-light);">
+                        <div>
+                            <div style="font-size: 12px; font-weight: 700; color: var(--purple); text-transform: uppercase;">Selected Date</div>
+                            <h3 id="selectedDateTitle" style="font-size: 18px; font-weight: 800; color: var(--primary);">September 20, 2026</h3>
+                        </div>
+                        <span class="badge badge-technical" id="selectedEventCountBadge">1 Event</span>
+                    </div>
+
+                    <div id="selectedDateEventsList" style="display: flex; flex-direction: column; gap: 14px; flex: 1;">
+                        <!-- Injected dynamically via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ================= SITE FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="brand-logo">
+                    <div class="logo-icon">
+                        <i data-lucide="graduation-cap" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <span>Campus<span class="brand-highlight">Events</span></span>
+                </a>
+                <p>
+                    Connecting students with enriching campus experiences. The official event discovery and participation platform of Shadan College of Engineering and Technology.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Home</a></li>
+                    <li><a href="event.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> All Events</a></li>
+                    <li><a href="calendar.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Event Calendar</a></li>
+                    <li><a href="my-registrations.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> My Passes</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Categories</h4>
+                <ul class="footer-links">
+                    <li><a href="event.html?category=Sports"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Cricket & Sports</a></li>
+                    <li><a href="event.html?category=Technical"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Tech Hackathons</a></li>
+                    <li><a href="event.html?category=Cultural"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Cultural Fests</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">College Contact</h4>
+                <div class="footer-contact-item">
+                    <i data-lucide="map-pin"></i>
+                    <span>Shadan College of Engineering & Technology, Hyderabad</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i data-lucide="mail"></i>
+                    <span>events@shadan.edu.in</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">
+            <div>
+                &copy; 2026 CampusEvents | Shadan College of Engineering and Technology. All rights reserved.
+            </div>
+            <div>
+                Built for 2nd-Year B.Tech CSE Project Presentation.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        let currentCalYear = 2026;
+        let currentCalMonth = 8; // September (0-indexed: 8 = Sept)
+        let selectedDateStr = '2026-09-20';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCalendar();
+            renderSelectedDateEvents();
+        });
+
+        function changeMonth(delta) {
+            currentCalMonth += delta;
+            if (currentCalMonth > 11) {
+                currentCalMonth = 0;
+                currentCalYear++;
+            } else if (currentCalMonth < 0) {
+                currentCalMonth = 11;
+                currentCalYear--;
+            }
+            renderCalendar();
+        }
+
+        function jumpToCurrentMonth() {
+            currentCalYear = 2026;
+            currentCalMonth = 8;
+            selectedDateStr = '2026-09-20';
+            renderCalendar();
+            renderSelectedDateEvents();
+        }
+
+        function renderCalendar() {
+            const monthNames = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+            document.getElementById('currentMonthYear').textContent = `${monthNames[currentCalMonth]} ${currentCalYear}`;
+
+            const firstDay = new Date(currentCalYear, currentCalMonth, 1).getDay();
+            const daysInMonth = new Date(currentCalYear, currentCalMonth + 1, 0).getDate();
+            const prevMonthDays = new Date(currentCalYear, currentCalMonth, 0).getDate();
+
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            const allEvents = getEvents();
+
+            // Previous month inactive cells
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const cell = document.createElement('div');
+                cell.className = 'cal-day-cell inactive';
+                cell.innerHTML = `<span class="cal-day-number">${prevMonthDays - i}</span>`;
+                grid.appendChild(cell);
+            }
+
+            // Current month days
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dayPadded = String(d).padStart(2, '0');
+                const monthPadded = String(currentCalMonth + 1).padStart(2, '0');
+                const dateKey = `${currentCalYear}-${monthPadded}-${dayPadded}`;
+
+                // Find events on this date
+                const dayEvents = allEvents.filter(e => e.date === dateKey);
+
+                const cell = document.createElement('div');
+                cell.className = 'cal-day-cell';
+                if (dateKey === selectedDateStr) cell.classList.add('selected');
+                if (dateKey === '2026-09-20') cell.classList.add('today');
+
+                let dotsHTML = '';
+                if (dayEvents.length > 0) {
+                    dotsHTML = `<div class="event-dots-row">` + 
+                        dayEvents.map(e => {
+                            const theme = getEventTheme(e.category, e.title);
+                            return `<span class="event-dot" style="background: ${theme.accentColor};" title="${e.title}"></span>`;
+                        }).join('') + 
+                    `</div>`;
+                }
+
+                cell.innerHTML = `
+                    <span class="cal-day-number">${d}</span>
+                    ${dotsHTML}
+                `;
+
+                cell.addEventListener('click', () => {
+                    document.querySelectorAll('.cal-day-cell').forEach(c => c.classList.remove('selected'));
+                    cell.classList.add('selected');
+                    selectedDateStr = dateKey;
+                    renderSelectedDateEvents();
+                });
+
+                grid.appendChild(cell);
+            }
+
+            refreshIcons();
+        }
+
+        function renderSelectedDateEvents() {
+            const allEvents = getEvents();
+            const matched = allEvents.filter(e => e.date === selectedDateStr);
+            const container = document.getElementById('selectedDateEventsList');
+            const dateTitle = document.getElementById('selectedDateTitle');
+            const countBadge = document.getElementById('selectedEventCountBadge');
+
+            const formatted = formatDisplayDate(selectedDateStr);
+            dateTitle.textContent = formatted.full;
+            countBadge.textContent = `${matched.length} Event${matched.length === 1 ? '' : 's'}`;
+
+            if (matched.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="padding: 30px 10px;">
+                        <i data-lucide="coffee" style="width: 28px; height: 28px; color: var(--text-muted); margin-bottom: 8px;"></i>
+                        <h4 style="font-size: 15px; color: var(--primary);">No Events Scheduled</h4>
+                        <p style="font-size: 13px; color: var(--text-muted);">No campus events have been booked for this date yet.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = matched.map(evt => {
+                    const theme = getEventTheme(evt.category, evt.title);
+                    return `
+                        <div style="background: var(--bg); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 18px; border-left: 4px solid ${theme.accentColor};">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                                <span class="badge ${theme.badgeClass}">
+                                    <i data-lucide="${theme.icon}" style="width: 12px; height: 12px;"></i>
+                                    ${evt.category}
+                                </span>
+                                <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">${evt.time}</span>
+                            </div>
+                            <h4 style="font-size: 16px; font-weight: 800; color: var(--primary); margin-bottom: 4px;">${evt.title}</h4>
+                            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4;">${evt.tagline || evt.description}</p>
+                            
+                            <div style="display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px;">
+                                <i data-lucide="map-pin" style="width: 14px; height: 14px; color: var(--purple);"></i>
+                                <span>${evt.venue}</span>
+                            </div>
+
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn btn-outline btn-sm" style="flex: 1;" onclick="openEventModal('${evt.id}')">
+                                    <i data-lucide="info" style="width: 14px; height: 14px;"></i> Details
+                                </button>
+                                <a href="registration.html?event=${encodeURIComponent(evt.title)}" class="btn btn-primary btn-sm" style="flex: 1;">
+                                    <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i> Register
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            refreshIcons();
+        }
+    </script>
+</body>
+</html>
