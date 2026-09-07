@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusEvents - Online Event Registration</title>
+    <meta name="description" content="Register online for official collegiate events, hackathons, workshops, and sports tournaments at Shadan College of Engineering and Technology.">
+
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .reg-confirmation-card {
+            display: none;
+            background: linear-gradient(135deg, #1b1338, #2a1954);
+            border: 2px solid var(--accent);
+            border-radius: var(--radius-lg);
+            padding: 36px 32px;
+            color: #ffffff;
+            box-shadow: var(--shadow-lg);
+            animation: fadeInScale 0.5s ease forwards;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .reg-confirmation-card::before {
+            content: "";
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: rgba(0, 229, 255, 0.1);
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.96) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .pass-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .pass-meta-item .label {
+            font-size: 11px;
+            color: #b7b2d4;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .pass-meta-item .value {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= SITE HEADER ================= -->
+    <header class="site-header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand-logo">
+                <div class="logo-icon">
+                    <i data-lucide="graduation-cap" style="width: 22px; height: 22px;"></i>
+                </div>
+                <span>Campus<span class="brand-highlight">Events</span></span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="site-nav" id="siteNav">
+                <a href="index.html">
+                    <i data-lucide="home" style="width: 15px; height: 15px;"></i> Home
+                </a>
+                <a href="event.html">
+                    <i data-lucide="calendar" style="width: 15px; height: 15px;"></i> Events
+                </a>
+                <a href="calendar.html">
+                    <i data-lucide="clock" style="width: 15px; height: 15px;"></i> Calendar
+                </a>
+                <a href="gallery.html">
+                    <i data-lucide="image" style="width: 15px; height: 15px;"></i> Gallery
+                </a>
+                <a href="announcements.html">
+                    <i data-lucide="bell" style="width: 15px; height: 15px;"></i> Notices
+                </a>
+                <a href="leaderboard.html">
+                    <i data-lucide="trophy" style="width: 15px; height: 15px;"></i> Leaderboard
+                </a>
+                <a href="my-registrations.html">
+                    <i data-lucide="check-circle" style="width: 15px; height: 15px;"></i> My Passes
+                </a>
+                <a href="about.html">
+                    <i data-lucide="info" style="width: 15px; height: 15px;"></i> About
+                </a>
+                <a href="contact.html">
+                    <i data-lucide="phone" style="width: 15px; height: 15px;"></i> Contact
+                </a>
+                <a href="admin.html" style="color: var(--accent);">
+                    <i data-lucide="settings" style="width: 15px; height: 15px;"></i> Admin
+                </a>
+            </nav>
+
+            <!-- CTA & Mobile Button -->
+            <div class="nav-actions">
+                <a href="registration.html" class="btn btn-sm btn-nav-register">
+                    <i data-lucide="user-plus" style="width: 15px; height: 15px;"></i> Register
+                </a>
+                <button class="mobile-toggle" aria-label="Toggle Navigation Menu">
+                    <i data-lucide="menu" style="width: 24px; height: 24px;"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main style="padding: 45px 0 60px;">
+        <div class="container container-narrow">
+
+            <!-- Title & description -->
+            <div class="section-header text-center">
+                <span class="section-tag">
+                    <i data-lucide="user-check" style="width: 14px; height: 14px;"></i>
+                    Official Portal
+                </span>
+                <h1 class="section-title with-accent">Event Registration</h1>
+                <p class="section-desc">
+                    Complete your details below to obtain an official digital event confirmation pass. Free student entry verified by college roll number.
+                </p>
+            </div>
+
+            <!-- SUCCESS CONFIRMATION PASS (Shown after valid registration) -->
+            <div class="reg-confirmation-card" id="confirmationPass">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--success); display: flex; align-items: center; justify-content: center; color: #ffffff;">
+                            <i data-lucide="check-circle" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div>
+                            <h2 style="font-size: 22px; font-weight: 800; color: #ffffff;">Registration Successful!</h2>
+                            <p style="font-size: 13.5px; color: #b7b2d4;">You're officially registered for this event.</p>
+                        </div>
+                    </div>
+                    <span class="badge" style="background: rgba(0, 229, 255, 0.2); color: var(--accent); font-size: 13px; padding: 6px 14px;">
+                        Pass Confirmed
+                    </span>
+                </div>
+
+                <div class="pass-meta-grid">
+                    <div class="pass-meta-item">
+                        <div class="label">Event Title</div>
+                        <div class="value" id="passEventTitle">Tech Hackathon 2026</div>
+                    </div>
+                    <div class="pass-meta-item">
+                        <div class="label">Registration ID</div>
+                        <div class="value" id="passRegId" style="color: var(--accent); font-family: monospace; font-size: 16px;">CE-2026-8492</div>
+                    </div>
+                    <div class="pass-meta-item">
+                        <div class="label">Student Name</div>
+                        <div class="value" id="passStudentName">Mohammed Hussain</div>
+                    </div>
+                    <div class="pass-meta-item">
+                        <div class="label">Roll Number</div>
+                        <div class="value" id="passRollNumber">1604-23-733-045</div>
+                    </div>
+                    <div class="pass-meta-item">
+                        <div class="label">Event Date & Time</div>
+                        <div class="value" id="passDateTime">Sept 20, 2026 (9:00 AM)</div>
+                    </div>
+                    <div class="pass-meta-item">
+                        <div class="label">Assigned Venue</div>
+                        <div class="value" id="passVenue">CS Lab 3, Tech Block</div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <a href="my-registrations.html" class="btn btn-accent btn-sm">
+                        <i data-lucide="list" style="width: 15px; height: 15px;"></i>
+                        View in My Registrations
+                    </a>
+                    <button class="btn btn-outline-white btn-sm" onclick="window.print()">
+                        <i data-lucide="printer" style="width: 15px; height: 15px;"></i>
+                        Print Confirmation Pass
+                    </button>
+                    <button class="btn btn-outline-white btn-sm" onclick="resetFormForNewRegistration()">
+                        <i data-lucide="plus" style="width: 15px; height: 15px;"></i>
+                        Register Another
+                    </button>
+                </div>
+            </div>
+
+            <!-- REGISTRATION FORM CARD -->
+            <div class="form-card" id="formWrapper">
+                <form id="officialRegForm" novalidate onsubmit="return handleRegistrationSubmit(event)">
+
+                    <!-- Event Selection (Dropdown) -->
+                    <div class="form-group">
+                        <label for="eventSelect" class="form-label">
+                            Select Campus Event <span class="required">*</span>
+                        </label>
+                        <select id="eventSelect" class="form-control" required onchange="handleEventSelectionChange()">
+                            <option value="">-- Choose an Event to Register --</option>
+                            <!-- Options injected dynamically from data.js -->
+                        </select>
+                        <div class="invalid-feedback" id="eventSelectError">Please select an event to register.</div>
+                    </div>
+
+                    <!-- Personal Information Row -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName" class="form-label">
+                                Full Name <span class="required">*</span>
+                            </label>
+                            <input type="text" id="fullName" class="form-control" placeholder="e.g. Mohammed Hussain" required>
+                            <div class="invalid-feedback" id="fullNameError">Please enter your full name (minimum 3 characters).</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="studentEmail" class="form-label">
+                                Email Address <span class="required">*</span>
+                            </label>
+                            <input type="email" id="studentEmail" class="form-control" placeholder="e.g. hussain@gmail.com" required>
+                            <div class="invalid-feedback" id="studentEmailError">Please enter a valid email address.</div>
+                        </div>
+                    </div>
+
+                    <!-- Contact & Roll Number Row -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentPhone" class="form-label">
+                                Phone Number <span class="required">*</span>
+                            </label>
+                            <input type="tel" id="studentPhone" class="form-control" placeholder="10-digit mobile number" maxlength="10" required>
+                            <div class="invalid-feedback" id="studentPhoneError">Please enter a valid 10-digit mobile number.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rollNumber" class="form-label">
+                                Student Roll Number / ID <span class="required">*</span>
+                            </label>
+                            <input type="text" id="rollNumber" class="form-control" placeholder="e.g. 1604-23-733-045" required>
+                            <div class="invalid-feedback" id="rollNumberError">Please enter your college roll number.</div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Information Row -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentBranch" class="form-label">
+                                Branch / Department <span class="required">*</span>
+                            </label>
+                            <select id="studentBranch" class="form-control" required>
+                                <option value="">Select Branch</option>
+                                <option value="Computer Science and Engineering" selected>Computer Science & Engineering (CSE)</option>
+                                <option value="Information Technology">Information Technology (IT)</option>
+                                <option value="Artificial Intelligence & Data Science">AI & Data Science (AI/DS)</option>
+                                <option value="Electronics & Communication Engineering">Electronics & Communication (ECE)</option>
+                                <option value="Mechanical Engineering">Mechanical Engineering (ME)</option>
+                                <option value="Civil Engineering">Civil Engineering (CE)</option>
+                            </select>
+                            <div class="invalid-feedback" id="studentBranchError">Please select your branch.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="studentYear" class="form-label">
+                                Current Year of Study <span class="required">*</span>
+                            </label>
+                            <select id="studentYear" class="form-control" required>
+                                <option value="1st Year">1st Year (B.Tech)</option>
+                                <option value="2nd Year" selected>2nd Year (B.Tech)</option>
+                                <option value="3rd Year">3rd Year (B.Tech)</option>
+                                <option value="4th Year">4th Year (B.Tech)</option>
+                                <option value="Postgraduate">MCA / M.Tech</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- College Name -->
+                    <div class="form-group">
+                        <label for="collegeName" class="form-label">
+                            College / Institution Name <span class="required">*</span>
+                        </label>
+                        <input type="text" id="collegeName" class="form-control" value="Shadan College of Engineering and Technology" required>
+                        <div class="invalid-feedback" id="collegeNameError">Please enter your college name.</div>
+                    </div>
+
+                    <!-- Conditional Team Information (Shows for Hackathon / Cricket / Group events) -->
+                    <div id="teamInfoBox" style="display: none; background: rgba(124, 58, 237, 0.05); border: 1.5px dashed var(--purple); border-radius: var(--radius-sm); padding: 18px; margin-bottom: 20px;">
+                        <div style="font-size: 13.5px; font-weight: 700; color: var(--purple); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+                            <i data-lucide="users" style="width: 16px; height: 16px;"></i> Team Information (Required for this Event)
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="teamName" class="form-label">Team Name <span class="required">*</span></label>
+                                <input type="text" id="teamName" class="form-control" placeholder="e.g. BinaryCrafters / CSE XI">
+                                <div class="invalid-feedback" id="teamNameError">Please provide your team or squad name.</div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="teamMembersCount" class="form-label">Total Team Members</label>
+                                <select id="teamMembersCount" class="form-control">
+                                    <option value="2 Members">2 Members</option>
+                                    <option value="3 Members">3 Members</option>
+                                    <option value="4 Members">4 Members</option>
+                                    <option value="Squad (11+ Players)">Squad (11+ Players)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Agreement Checkbox -->
+                    <div style="margin-bottom: 24px; display: flex; align-items: flex-start; gap: 10px;">
+                        <input type="checkbox" id="rulesConsent" style="margin-top: 4px;" checked required>
+                        <label for="rulesConsent" style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+                            I confirm that the details provided are accurate. I agree to abide by the official college rules and guidelines for this event.
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" id="submitRegBtn">
+                        <i data-lucide="check-circle" style="width: 18px; height: 18px;"></i>
+                        Confirm & Generate Registration Pass
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- ================= SITE FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="brand-logo">
+                    <div class="logo-icon">
+                        <i data-lucide="graduation-cap" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <span>Campus<span class="brand-highlight">Events</span></span>
+                </a>
+                <p>
+                    Connecting students with enriching campus experiences. The official event discovery and participation platform of Shadan College of Engineering and Technology.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Home</a></li>
+                    <li><a href="event.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> All Events</a></li>
+                    <li><a href="calendar.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Event Calendar</a></li>
+                    <li><a href="my-registrations.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> My Passes</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Categories</h4>
+                <ul class="footer-links">
+                    <li><a href="event.html?category=Sports"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Cricket & Sports</a></li>
+                    <li><a href="event.html?category=Technical"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Tech Hackathons</a></li>
+                    <li><a href="event.html?category=Cultural"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Cultural Fests</a></li>
+                    <li><a href="event.html?category=Workshop"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Practical Workshops</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">College Contact</h4>
+                <div class="footer-contact-item">
+                    <i data-lucide="map-pin"></i>
+                    <span>Shadan College of Engineering & Technology, Hyderabad</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i data-lucide="mail"></i>
+                    <span>events@shadan.edu.in</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i data-lucide="phone"></i>
+                    <span>+91 (040) 2419-8200</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">
+            <div>
+                &copy; 2026 CampusEvents | Shadan College of Engineering and Technology. All rights reserved.
+            </div>
+            <div>
+                Built for 2nd-Year B.Tech CSE Project Presentation.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const events = getEvents();
+            const eventSelect = document.getElementById('eventSelect');
+            
+            // Populate events in select dropdown
+            eventSelect.innerHTML = '<option value="">-- Choose an Event to Register --</option>' + 
+                events.map(e => `<option value="${e.id}" data-title="${e.title}" data-date="${e.date}" data-venue="${e.venue}" data-team="${e.teamSize || ''}">${e.title} (${e.category})</option>`).join('');
+
+            // Pre-select if URL has ?event=...
+            const urlParams = new URLSearchParams(window.location.search);
+            const preselectedTitle = urlParams.get('event');
+            if (preselectedTitle) {
+                const found = events.find(e => e.title.toLowerCase() === preselectedTitle.toLowerCase() || e.id === preselectedTitle);
+                if (found) {
+                    eventSelect.value = found.id;
+                    handleEventSelectionChange();
+                }
+            }
+        });
+
+        function handleEventSelectionChange() {
+            const select = document.getElementById('eventSelect');
+            const teamBox = document.getElementById('teamInfoBox');
+            const selectedOpt = select.options[select.selectedIndex];
+            
+            if (!selectedOpt || !selectedOpt.value) {
+                teamBox.style.display = 'none';
+                return;
+            }
+
+            const teamInfo = selectedOpt.getAttribute('data-team') || '';
+            const title = selectedOpt.getAttribute('data-title') || '';
+            
+            // Show team info for events requiring a team (Hackathons, Cricket, Quiz)
+            if (teamInfo.toLowerCase().includes('member') || teamInfo.toLowerCase().includes('player') || title.toLowerCase().includes('cricket') || title.toLowerCase().includes('hackathon')) {
+                teamBox.style.display = 'block';
+            } else {
+                teamBox.style.display = 'none';
+            }
+            refreshIcons();
+        }
+
+        function handleRegistrationSubmit(e) {
+            e.preventDefault();
+            let isValid = true;
+
+            // Elements
+            const eventSelect = document.getElementById('eventSelect');
+            const fullName = document.getElementById('fullName');
+            const email = document.getElementById('studentEmail');
+            const phone = document.getElementById('studentPhone');
+            const rollNumber = document.getElementById('rollNumber');
+            const branch = document.getElementById('studentBranch');
+            const year = document.getElementById('studentYear');
+            const college = document.getElementById('collegeName');
+            const teamBox = document.getElementById('teamInfoBox');
+            const teamName = document.getElementById('teamName');
+
+            // Reset error styles
+            document.querySelectorAll('.invalid-feedback').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-invalid'));
+
+            // Event validation
+            if (!eventSelect.value) {
+                document.getElementById('eventSelectError').style.display = 'block';
+                eventSelect.classList.add('is-invalid');
+                isValid = false;
+            }
+
+            // Name validation
+            if (!fullName.value.trim() || fullName.value.trim().length < 3) {
+                document.getElementById('fullNameError').style.display = 'block';
+                fullName.classList.add('is-invalid');
+                isValid = false;
+            }
+
+            // Email validation
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email.value.trim())) {
+                document.getElementById('studentEmailError').style.display = 'block';
+                email.classList.add('is-invalid');
+                isValid = false;
+            }
+
+            // Phone validation
+            const phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(phone.value.trim())) {
+                document.getElementById('studentPhoneError').style.display = 'block';
+                phone.classList.add('is-invalid');
+                isValid = false;
+            }
+
+            // Roll number validation
+            if (!rollNumber.value.trim()) {
+                document.getElementById('rollNumberError').style.display = 'block';
+                rollNumber.classList.add('is-invalid');
+                isValid = false;
+            }
+
+            // Team Name validation if team required
+            if (teamBox.style.display !== 'none' && !teamName.value.trim()) {
+                document.getElementById('teamNameError').style.display = 'block';
+                teamName.classList.add('is-invalid');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                showToast('Please correct the highlighted errors in the form.', 'error');
+                return false;
+            }
+
+            const selectedOpt = eventSelect.options[eventSelect.selectedIndex];
+            const eventObj = getEventById(eventSelect.value);
+
+            // Create registration record
+            const regData = {
+                name: fullName.value.trim(),
+                email: email.value.trim(),
+                phone: phone.value.trim(),
+                rollNumber: rollNumber.value.trim(),
+                branch: branch.value,
+                year: year.value,
+                college: college.value.trim(),
+                eventId: eventSelect.value,
+                eventTitle: selectedOpt.getAttribute('data-title'),
+                venue: selectedOpt.getAttribute('data-venue'),
+                eventDate: selectedOpt.getAttribute('data-date'),
+                teamName: teamBox.style.display !== 'none' ? teamName.value.trim() : 'Individual Entry'
+            };
+
+            const savedReg = addRegistration(regData);
+
+            // Populate Pass
+            document.getElementById('passEventTitle').textContent = savedReg.eventTitle;
+            document.getElementById('passRegId').textContent = savedReg.regId;
+            document.getElementById('passStudentName').textContent = savedReg.name;
+            document.getElementById('passRollNumber').textContent = savedReg.rollNumber + ' (' + savedReg.branch + ')';
+            document.getElementById('passDateTime').textContent = formatDisplayDate(savedReg.eventDate).full;
+            document.getElementById('passVenue').textContent = savedReg.venue;
+
+            // Switch view
+            document.getElementById('formWrapper').style.display = 'none';
+            const passCard = document.getElementById('confirmationPass');
+            passCard.style.display = 'block';
+            passCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            showToast('Official Registration Pass Generated!', 'success');
+            refreshIcons();
+            return false;
+        }
+
+        function resetFormForNewRegistration() {
+            document.getElementById('officialRegForm').reset();
+            document.getElementById('formWrapper').style.display = 'block';
+            document.getElementById('confirmationPass').style.display = 'none';
+            document.getElementById('teamInfoBox').style.display = 'none';
+            document.getElementById('formWrapper').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
