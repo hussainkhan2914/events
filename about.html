@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusEvents - About the College Project</title>
+    <meta name="description" content="Learn about CampusEvents, a comprehensive 2nd-year B.Tech collegiate event discovery and registration platform built for Shadan College of Engineering and Technology.">
+
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .about-feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 32px 0 60px;
+        }
+
+        .about-feature-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            padding: 28px 24px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .about-feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        .team-strip {
+            background: linear-gradient(135deg, #181131, #2c1a59);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(0, 229, 255, 0.25);
+            padding: 40px 32px;
+            color: #ffffff;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= SITE HEADER ================= -->
+    <header class="site-header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand-logo">
+                <div class="logo-icon">
+                    <i data-lucide="graduation-cap" style="width: 22px; height: 22px;"></i>
+                </div>
+                <span>Campus<span class="brand-highlight">Events</span></span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="site-nav" id="siteNav">
+                <a href="index.html">
+                    <i data-lucide="home" style="width: 15px; height: 15px;"></i> Home
+                </a>
+                <a href="event.html">
+                    <i data-lucide="calendar" style="width: 15px; height: 15px;"></i> Events
+                </a>
+                <a href="calendar.html">
+                    <i data-lucide="clock" style="width: 15px; height: 15px;"></i> Calendar
+                </a>
+                <a href="gallery.html">
+                    <i data-lucide="image" style="width: 15px; height: 15px;"></i> Gallery
+                </a>
+                <a href="announcements.html">
+                    <i data-lucide="bell" style="width: 15px; height: 15px;"></i> Notices
+                </a>
+                <a href="leaderboard.html">
+                    <i data-lucide="trophy" style="width: 15px; height: 15px;"></i> Leaderboard
+                </a>
+                <a href="my-registrations.html">
+                    <i data-lucide="check-circle" style="width: 15px; height: 15px;"></i> My Passes
+                </a>
+                <a href="about.html" class="active">
+                    <i data-lucide="info" style="width: 15px; height: 15px;"></i> About
+                </a>
+                <a href="contact.html">
+                    <i data-lucide="phone" style="width: 15px; height: 15px;"></i> Contact
+                </a>
+                <a href="admin.html" style="color: var(--accent);">
+                    <i data-lucide="settings" style="width: 15px; height: 15px;"></i> Admin
+                </a>
+            </nav>
+
+            <!-- CTA & Mobile Button -->
+            <div class="nav-actions">
+                <a href="registration.html" class="btn btn-sm btn-nav-register">
+                    <i data-lucide="user-plus" style="width: 15px; height: 15px;"></i> Register
+                </a>
+                <button class="mobile-toggle" aria-label="Toggle Navigation Menu">
+                    <i data-lucide="menu" style="width: 24px; height: 24px;"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main style="padding: 50px 0 70px;">
+        <div class="container">
+            <!-- Hero Introduction -->
+            <div class="section-header text-center" style="max-width: 820px; margin: 0 auto 50px;">
+                <span class="section-tag">
+                    <i data-lucide="bookmark" style="width: 14px; height: 14px;"></i>
+                    Project Overview
+                </span>
+                <h1 class="section-title with-accent">About CampusEvents</h1>
+                <p class="section-desc" style="font-size: 18px; margin-top: 14px; line-height: 1.6;">
+                    <strong>CampusEvents</strong> is a collegiate event management platform engineered to solve student awareness fragmentation, streamline online event registrations, and celebrate campus culture at Shadan College of Engineering and Technology.
+                </p>
+            </div>
+
+            <!-- Four Main Purpose Pillars -->
+            <div class="about-feature-grid">
+                <!-- Pillar 1 -->
+                <div class="about-feature-card">
+                    <div style="width: 50px; height: 50px; border-radius: 12px; background: var(--purple-bg); color: var(--purple); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                        <i data-lucide="target" style="width: 24px; height: 24px;"></i>
+                    </div>
+                    <h3 style="font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 8px;">Our Purpose</h3>
+                    <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6;">
+                        Campus events are traditionally promoted through scattered WhatsApp messages, hallway notice boards, and word-of-mouth. CampusEvents centralizes all academic, sporting, and cultural activities into a unified, reliable portal.
+                    </p>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="about-feature-card">
+                    <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(0, 229, 255, 0.1); color: #0284c7; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                        <i data-lucide="user-check" style="width: 24px; height: 24px;"></i>
+                    </div>
+                    <h3 style="font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 8px;">What Students Can Do</h3>
+                    <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6;">
+                        Students can filter competitions by domain, view dynamic category themes, sign up with their college roll number, generate printable digital entry passes, and track tournament standings on live leaderboards.
+                    </p>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="about-feature-card">
+                    <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); color: var(--success); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                        <i data-lucide="layers" style="width: 24px; height: 24px;"></i>
+                    </div>
+                    <h3 style="font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 8px;">Event Categories</h3>
+                    <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6;">
+                        From the high-stakes <strong>Annual Cricket Tournament</strong> and <strong>Tech Hackathons</strong> to practical cloud computing workshops and inter-college quiz bowls, our 8 core categories cover every dimension of student development.
+                    </p>
+                </div>
+
+                <!-- Pillar 4 -->
+                <div class="about-feature-card">
+                    <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(245, 158, 11, 0.1); color: var(--warning); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                        <i data-lucide="shield-check" style="width: 24px; height: 24px;"></i>
+                    </div>
+                    <h3 style="font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 8px;">Why CampusEvents?</h3>
+                    <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6;">
+                        Unlike static demo templates, CampusEvents operates with client-side persistence, real-time search, category visual theme matching, responsive accessibility, and an administrator panel for event organizers.
+                    </p>
+                </div>
+            </div>
+
+            <!-- College Project Spotlight Strip -->
+            <div class="team-strip">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;">
+                    <div>
+                        <span class="badge" style="background: rgba(0, 229, 255, 0.2); color: var(--accent); margin-bottom: 10px;">
+                            B.Tech Engineering Project
+                        </span>
+                        <h2 style="font-size: 26px; font-weight: 800; color: #ffffff; margin-bottom: 6px;">
+                            Department of Computer Science & Engineering
+                        </h2>
+                        <p style="font-size: 15px; color: #cfcbdf; max-width: 600px; line-height: 1.6;">
+                            Developed by 2nd-Year B.Tech students at Shadan College of Engineering & Technology, Peerancheru, Hyderabad. Designed with clean modular code, responsive semantics, and zero external build overhead.
+                        </p>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <a href="event.html" class="btn btn-accent">
+                            <i data-lucide="calendar" style="width: 16px; height: 16px;"></i> Browse Live Events
+                        </a>
+                        <a href="contact.html" class="btn btn-outline-white">
+                            <i data-lucide="mail" style="width: 16px; height: 16px;"></i> Contact Committee
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ================= SITE FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="brand-logo">
+                    <div class="logo-icon">
+                        <i data-lucide="graduation-cap" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <span>Campus<span class="brand-highlight">Events</span></span>
+                </a>
+                <p>
+                    Connecting students with enriching campus experiences. The official event discovery and participation platform of Shadan College of Engineering and Technology.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Home</a></li>
+                    <li><a href="event.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> All Events</a></li>
+                    <li><a href="calendar.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Event Calendar</a></li>
+                    <li><a href="my-registrations.html"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> My Passes</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Categories</h4>
+                <ul class="footer-links">
+                    <li><a href="event.html?category=Sports"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Cricket & Sports</a></li>
+                    <li><a href="event.html?category=Technical"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Tech Hackathons</a></li>
+                    <li><a href="event.html?category=Cultural"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Cultural Fests</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">College Contact</h4>
+                <div class="footer-contact-item">
+                    <i data-lucide="map-pin"></i>
+                    <span>Shadan College of Engineering & Technology, Hyderabad</span>
+                </div>
+                <div class="footer-contact-item">
+                    <i data-lucide="mail"></i>
+                    <span>events@shadan.edu.in</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container footer-bottom">
+            <div>
+                &copy; 2026 CampusEvents | Shadan College of Engineering and Technology. All rights reserved.
+            </div>
+            <div>
+                Built for 2nd-Year B.Tech CSE Project Presentation.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
