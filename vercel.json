@@ -1,0 +1,14 @@
+{
+  "name": "offcampus",
+  "cleanUrls": true,
+  "framework": null,
+  "public": false,
+  "rewrites": [
+    { "source": "/events", "destination": "/event.html" },
+    { "source": "/register", "destination": "/registration.html" },
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/calendar", "destination": "/calendar.html" },
+    { "source": "/gallery", "destination": "/gallery.html" },
+    { "source": "/admin", "destination": "/admin.html" }
+  ]
+}
